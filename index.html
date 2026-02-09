@@ -31,6 +31,16 @@ button{
 #yesBtn{background:#ff4d88;color:#fff}
 #noBtn{background:#ccc;position:absolute}
 
+/* music button */
+#musicBtn{
+  background:#ff3366;
+  color:white;
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:999;
+}
+
 /* Hearts game */
 .heart{
   font-size:30px;
@@ -100,18 +110,16 @@ button{
 @keyframes fadeUp{
   to{opacity:1;transform:translateY(0)}
 }
-
-@keyframes floatUp{
-  to{opacity:0;transform:translateY(-60px)}
-}
 </style>
 </head>
 
 <body>
 
-<audio id="bgMusic" preload="auto" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="night_we_met.mp3" type="audio/mpeg">
 </audio>
+
+<button id="musicBtn">Play Music 🎵</button>
 
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
@@ -160,14 +168,14 @@ const pages=document.querySelectorAll(".page");
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
 const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
 
-/* FORCE audio */
-music.volume = 1;
-
-/* extra fallback — any click starts music */
-document.body.addEventListener("click",()=>{
-  music.play().catch(()=>{});
-},{once:true});
+/* guaranteed music start */
+musicBtn.onclick=()=>{
+  music.volume=1;
+  music.play();
+  musicBtn.style.display="none";
+};
 
 /* NO button dodge + shrink */
 let scale=1;
@@ -181,7 +189,6 @@ noBtn.onmouseover=()=>{
 /* Hearts game */
 let heartScore=0;
 yesBtn.onclick=()=>{
-  music.play();
   pages[0].classList.remove("active");
   pages[1].classList.add("active");
   spawnHearts();
@@ -207,7 +214,7 @@ function spawnHearts(){
   }
 }
 
-/* Matching game — UPDATED EMOJIS */
+/* Matching game with requested emojis */
 function startMatchingGame(){
   const symbols=["💍","💍","❤️","❤️","🥰","🥰","🫶","🫶"];
   symbols.sort(()=>0.5-Math.random());
