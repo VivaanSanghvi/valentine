@@ -1,130 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mahek ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Mahek ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive;
-      background: #ffe6f0;
-      text-align: center;
-      overflow-x: hidden;
-    }
+<style>
+body{
+  margin:0;
+  font-family:'Comic Sans MS',cursive;
+  background:#ffe6f0;
+  text-align:center;
+}
+.page{display:none;min-height:100vh;padding:40px 20px}
+.page.active{display:block}
 
-    .page {
-      display: none;
-      padding: 40px 20px;
-      min-height: 100vh;
-    }
+h1{color:#ff3366;font-size:36px}
+h2{color:#ff4d88}
 
-    .page.active {
-      display: block;
-    }
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:20px;
+}
 
-    h1 {
-      color: #ff3366;
-      font-size: 36px;
-    }
+#yesBtn{background:#ff4d88;color:#fff}
+#noBtn{background:#ccc;position:absolute}
 
-    h2 {
-      color: #ff4d88;
-    }
+/* Hearts game */
+.heart{
+  font-size:30px;
+  position:absolute;
+  cursor:pointer;
+  animation:float 2s infinite alternate;
+}
 
-    button {
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      margin: 20px;
-    }
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-20px)}
+}
 
-    #yesBtn {
-      background: #ff4d88;
-      color: white;
-    }
+/* Matching game */
+.game-grid{
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  gap:15px;
+  justify-content:center;
+  margin-top:30px;
+}
 
-    #noBtn {
-      background: #ccc;
-      position: absolute;
-    }
+.card{
+  width:70px;
+  height:70px;
+  background:#ff99bb;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  cursor:pointer;
+}
 
-    /* GAME */
-    .heart {
-      font-size: 30px;
-      cursor: pointer;
-      animation: float 2s infinite alternate;
-    }
+.card.matched{
+  background:#fff;
+  cursor:default;
+}
 
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-20px); }
-    }
+/* Gallery */
+.gallery{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
 
-    /* GALLERY */
-    .gallery {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
+.photo-card{
+  background:#fff;
+  padding:15px;
+  width:220px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(255,0,100,.3);
+  opacity:0;
+  transform:translateY(30px);
+  animation:fadeUp 1s forwards;
+}
 
-    .photo-card {
-      background: white;
-      padding: 15px;
-      border-radius: 20px;
-      width: 220px;
-      box-shadow: 0 10px 25px rgba(255,0,100,0.3);
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s ease forwards;
-    }
+.photo-card:nth-child(1){animation-delay:.2s}
+.photo-card:nth-child(2){animation-delay:.5s}
+.photo-card:nth-child(3){animation-delay:.8s}
 
-    .photo-card:nth-child(1){animation-delay:.2s}
-    .photo-card:nth-child(2){animation-delay:.5s}
-    .photo-card:nth-child(3){animation-delay:.8s}
+.photo-card img{
+  width:100%;
+  border-radius:15px;
+  cursor:pointer;
+}
 
-    .photo-card img {
-      width: 100%;
-      border-radius: 15px;
-      cursor: pointer;
-    }
+.quote{margin-top:12px;color:#ff3366}
 
-    .quote {
-      margin-top: 12px;
-      color: #ff3366;
-      font-size: 16px;
-    }
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0)}
+}
 
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.final-message{
+  margin-top:60px;
+  color:#ff3366;
+}
 
-    .final-message {
-      margin-top: 60px;
-      color: #ff3366;
-    }
-
-    .final-message h2 {
-      font-size: 30px;
-    }
-
-    .final-message p {
-      font-size: 18px;
-    }
-
-    @media (max-width:600px) {
-      h1 { font-size: 28px; }
-      .gallery { flex-direction: column; }
-    }
-  </style>
+@media(max-width:600px){
+  .gallery{flex-direction:column}
+}
+</style>
 </head>
 
 <body>
@@ -137,7 +126,6 @@
 <div class="page active" id="page1">
   <h1>Mahek ❤️</h1>
   <h2>Do you wanna be my Valentine?</h2>
-
   <button id="yesBtn">Yes 💖</button>
   <button id="noBtn">No 🙄</button>
 </div>
@@ -145,12 +133,18 @@
 <!-- PAGE 2 -->
 <div class="page" id="page2">
   <h1>Catch the hearts 💘</h1>
-  <h2>Click 5 hearts to unlock the surprise</h2>
-  <div id="game"></div>
+  <h2>Click 5 hearts to continue</h2>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page" id="page3">
+  <h1>Match the hearts 💕</h1>
+  <h2>Find all the pairs</h2>
+  <div class="game-grid" id="matchGrid"></div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
   <h1>Mahek 💖</h1>
   <h2>You’re stuck with me forever 😌</h2>
 
@@ -159,12 +153,10 @@
       <img src="pic1.jpeg">
       <div class="quote">"My favorite place is next to you."</div>
     </div>
-
     <div class="photo-card">
       <img src="pic2.jpeg">
       <div class="quote">"Every love story is beautiful, but ours is my favorite."</div>
     </div>
-
     <div class="photo-card">
       <img src="pic3.jpeg">
       <div class="quote">"I choose you. Every single day."</div>
@@ -173,79 +165,112 @@
 
   <div class="final-message">
     <h2>Happy Valentine’s Day 💖</h2>
-    <p>
-      I choose you today, tomorrow, and always.  
-      And yes… you’re officially stuck with me forever 😉
-    </p>
+    <p>You & me — forever sounds perfect 😉</p>
   </div>
 </div>
 
 <script>
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-  const pages = document.querySelectorAll(".page");
+const pages=document.querySelectorAll(".page");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
 
-  noBtn.addEventListener("mouseover", () => {
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
-  });
+/* NO button dodge */
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
+  noBtn.style.top=Math.random()*(window.innerHeight-120)+"px";
+};
 
-  yesBtn.onclick = () => {
-    pages[0].classList.remove("active");
-    pages[1].classList.add("active");
-    startGame();
-  };
+/* Hearts game */
+let heartScore=0;
+yesBtn.onclick=()=>{
+  pages[0].classList.remove("active");
+  pages[1].classList.add("active");
+  spawnHearts();
+};
 
-  let score = 0;
-  function startGame() {
-    const game = document.getElementById("game");
-    for (let i = 0; i < 5; i++) spawnHeart();
+function spawnHearts(){
+  for(let i=0;i<5;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText="💖";
+    h.style.left=Math.random()*(window.innerWidth-50)+"px";
+    h.style.top=Math.random()*(window.innerHeight-50)+"px";
+    h.onclick=()=>{
+      h.remove();
+      heartScore++;
+      if(heartScore===5){
+        pages[1].classList.remove("active");
+        pages[2].classList.add("active");
+        startMatchingGame();
+      }
+    };
+    document.body.appendChild(h);
+  }
+}
 
-    function spawnHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💖";
-      heart.style.position = "absolute";
-      heart.style.left = Math.random() * (window.innerWidth - 50) + "px";
-      heart.style.top = Math.random() * (window.innerHeight - 50) + "px";
+/* Matching game */
+function startMatchingGame(){
+  const symbols=["💖","💖","💘","💘","❤️","❤️","💕","💕"];
+  symbols.sort(()=>0.5-Math.random());
 
-      heart.onclick = () => {
-        heart.remove();
-        score++;
-        if (score === 5) {
-          pages[1].classList.remove("active");
-          pages[2].classList.add("active");
+  const grid=document.getElementById("matchGrid");
+  let first=null,lock=false,matched=0;
+
+  symbols.forEach(sym=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.onclick=()=>{
+      if(lock||card.classList.contains("matched"))return;
+      card.innerText=sym;
+      if(!first){first=card;}
+      else{
+        lock=true;
+        if(first.innerText===card.innerText){
+          first.classList.add("matched");
+          card.classList.add("matched");
+          matched+=2;
+          lock=false;
+          first=null;
+          if(matched===symbols.length){
+            setTimeout(()=>{
+              pages[2].classList.remove("active");
+              pages[3].classList.add("active");
+            },800);
+          }
+        }else{
+          setTimeout(()=>{
+            first.innerText="";
+            card.innerText="";
+            lock=false;
+            first=null;
+          },800);
         }
-      };
+      }
+    };
+    grid.appendChild(card);
+  });
+}
 
-      game.appendChild(heart);
+/* Heart burst on image click */
+document.addEventListener("click",e=>{
+  if(e.target.tagName==="IMG"){
+    for(let i=0;i<10;i++){
+      const h=document.createElement("div");
+      h.innerText="💖";
+      h.style.position="fixed";
+      h.style.left=e.clientX+"px";
+      h.style.top=e.clientY+"px";
+      h.style.animation="floatUp 1s forwards";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),1000);
     }
   }
-
-  // Heart burst on photo click
-  document.addEventListener("click", (e) => {
-    if (e.target.tagName === "IMG") {
-      for (let i = 0; i < 10; i++) {
-        const h = document.createElement("div");
-        h.innerText = "💖";
-        h.style.position = "fixed";
-        h.style.left = e.clientX + "px";
-        h.style.top = e.clientY + "px";
-        h.style.fontSize = "20px";
-        h.style.animation = "floatUp 1s ease forwards";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 1000);
-      }
-    }
-  });
+});
 </script>
 
 <style>
-@keyframes floatUp {
-  to {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
+@keyframes floatUp{
+  to{opacity:0;transform:translateY(-60px)}
 }
 </style>
 
