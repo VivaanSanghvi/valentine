@@ -103,6 +103,7 @@ button{
 .photo-card img{
   width:100%;
   border-radius:15px;
+  cursor:pointer;
 }
 
 .quote{margin-top:12px;color:#ff3366}
@@ -110,12 +111,24 @@ button{
 @keyframes fadeUp{
   to{opacity:1;transform:translateY(0)}
 }
+
+/* 💥 HEART BURST */
+.burst-heart{
+  position:absolute;
+  font-size:18px;
+  pointer-events:none;
+  animation:burst 1s forwards;
+}
+
+@keyframes burst{
+  0%{transform:scale(1) translate(0,0);opacity:1}
+  100%{transform:scale(1.5) translate(var(--x), var(--y));opacity:0}
+}
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO (FIXED) -->
 <audio id="bgMusic" loop preload="auto">
   <source src="night.mp3" type="audio/mpeg">
 </audio>
@@ -171,11 +184,11 @@ const noBtn=document.getElementById("noBtn");
 const music=document.getElementById("bgMusic");
 const musicBtn=document.getElementById("musicBtn");
 
-/* GUARANTEED MUSIC START (FIXED) */
+/* MUSIC */
 musicBtn.onclick=()=>{
   music.volume = 1;
   music.currentTime = 0;
-  music.play().catch(err => console.log(err));
+  music.play().catch(()=>{});
   musicBtn.style.display="none";
 };
 
@@ -259,6 +272,23 @@ function startMatchingGame(){
     grid.appendChild(card);
   });
 }
+
+/* 💥 HEART BURST ON IMAGE CLICK */
+document.querySelectorAll(".photo-card img").forEach(img=>{
+  img.addEventListener("click", e=>{
+    for(let i=0;i<12;i++){
+      const heart=document.createElement("div");
+      heart.className="burst-heart";
+      heart.innerText="💖";
+      heart.style.left=e.pageX+"px";
+      heart.style.top=e.pageY+"px";
+      heart.style.setProperty("--x",(Math.random()*120-60)+"px");
+      heart.style.setProperty("--y",(Math.random()*120-60)+"px");
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),1000);
+    }
+  });
+});
 </script>
 
 </body>
