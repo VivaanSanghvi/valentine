@@ -11,6 +11,7 @@ body{
   font-family:'Comic Sans MS',cursive;
   background:#ffe6f0;
   text-align:center;
+  overflow-x:hidden;
 }
 .page{display:none;min-height:100vh;padding:40px 20px}
 .page.active{display:block}
@@ -113,13 +114,17 @@ button{
 @media(max-width:600px){
   .gallery{flex-direction:column}
 }
+
+@keyframes floatUp{
+  to{opacity:0;transform:translateY(-60px)}
+}
 </style>
 </head>
 
 <body>
 
-<audio autoplay loop>
-  <source src="night_we_met.mp3.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+  <source src="night_we_met.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PAGE 1 -->
@@ -173,9 +178,13 @@ button{
 const pages=document.querySelectorAll(".page");
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
+const music=document.getElementById("bgMusic");
 
-/* NO button dodge */
+/* NO button dodge + shrink */
+let scale=1;
 noBtn.onmouseover=()=>{
+  scale-=0.1;
+  noBtn.style.transform=`scale(${Math.max(scale,0.3)})`;
   noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
   noBtn.style.top=Math.random()*(window.innerHeight-120)+"px";
 };
@@ -183,6 +192,7 @@ noBtn.onmouseover=()=>{
 /* Hearts game */
 let heartScore=0;
 yesBtn.onclick=()=>{
+  music.play();
   pages[0].classList.remove("active");
   pages[1].classList.add("active");
   spawnHearts();
@@ -214,6 +224,7 @@ function startMatchingGame(){
   symbols.sort(()=>0.5-Math.random());
 
   const grid=document.getElementById("matchGrid");
+  grid.innerHTML="";
   let first=null,lock=false,matched=0;
 
   symbols.forEach(sym=>{
@@ -267,12 +278,6 @@ document.addEventListener("click",e=>{
   }
 });
 </script>
-
-<style>
-@keyframes floatUp{
-  to{opacity:0;transform:translateY(-60px)}
-}
-</style>
 
 </body>
 </html>
