@@ -1,19 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Audio Test</title>
+<meta charset="UTF-8">
+<title>For Mahek ❤️</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+#page2, #page3 {
+  display: none;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+#noBtn {
+  position: relative;
+}
+
+.card {
+  display: inline-block;
+  font-size: 40px;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  border: 2px solid #000;
+  margin: 10px;
+  cursor: pointer;
+}
+
+img {
+  width: 200px;
+  border-radius: 15px;
+  margin: 10px;
+}
+</style>
 </head>
-<body style="text-align:center;padding-top:50px">
 
-<h1>Audio Test</h1>
+<body>
 
-<audio controls>
-  <source src="night_we_met.mp3" type="audio/mpeg">
-  Your browser does not support audio.
+<!-- AUDIO -->
+<audio id="bgMusic" preload="auto">
+  <source src="night.mp3" type="audio/mpeg">
 </audio>
 
-<p>If this does NOT play, the issue is NOT JavaScript.</p>
+<!-- PAGE 1 -->
+<div id="page1">
+  <h1>Mahek ❤️</h1>
+  <h2>Will you be mine forever?</h2>
+
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 😒</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+  <h2>You’re stuck with me forever 😌❤️</h2>
+  <p>Match the love symbols 💕</p>
+
+  <div id="game"></div>
+
+  <br>
+  <button onclick="showPage3()">Next 💫</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3">
+  <h2>Us 🥰</h2>
+
+  <img src="pic1.jpeg">
+  <p>“Every love story is beautiful, but ours is my favorite.”</p>
+
+  <img src="pic2.jpeg">
+  <p>“With you, everything feels like home.”</p>
+
+  <img src="pic3.jpeg">
+  <p>“Forever isn’t long enough with you.”</p>
+</div>
+
+<script>
+/* MUSIC */
+const music = document.getElementById("bgMusic");
+
+/* YES BUTTON */
+document.getElementById("yesBtn").addEventListener("click", () => {
+  music.volume = 0.5;
+  music.play();
+
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "block";
+  startGame();
+});
+
+/* NO BUTTON RUNS + SHRINKS */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px) scale(0.8)`;
+});
+
+/* MATCHING GAME */
+const symbols = ["💍","❤️","🥰","🫶","💍","❤️","🥰","🫶"];
+let first = null;
+let lock = false;
+
+function startGame() {
+  const shuffled = symbols.sort(() => 0.5 - Math.random());
+  const game = document.getElementById("game");
+  game.innerHTML = "";
+
+  shuffled.forEach(sym => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.textContent = "❓";
+
+    card.onclick = () => {
+      if (lock || card.textContent !== "❓") return;
+
+      card.textContent = sym;
+
+      if (!first) {
+        first = card;
+      } else {
+        lock = true;
+        setTimeout(() => {
+          if (first.textContent !== card.textContent) {
+            first.textContent = "❓";
+            card.textContent = "❓";
+          }
+          first = null;
+          lock = false;
+        }, 700);
+      }
+    };
+    game.appendChild(card);
+  });
+}
+
+/* SHOW PAGE 3 */
+function showPage3() {
+  document.getElementById("page2").style.display = "none";
+  document.getElementById("page3").style.display = "block";
+}
+</script>
 
 </body>
 </html>
