@@ -2,174 +2,262 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Mahek ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  text-align: center;
+body{
+  margin:0;
+  font-family:'Comic Sans MS',cursive;
+  background:#ffe6f0;
+  text-align:center;
+  overflow-x:hidden;
+}
+.page{display:none;min-height:100vh;padding:40px 20px}
+.page.active{display:block}
+
+h1{color:#ff3366;font-size:36px}
+h2{color:#ff4d88}
+
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:20px;
 }
 
-.section {
-  display: none;
-  padding: 40px;
+#yesBtn{background:#ff4d88;color:#fff}
+#noBtn{background:#ccc;position:absolute}
+
+/* music button */
+#musicBtn{
+  background:#ff3366;
+  color:white;
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:999;
 }
 
-#page1 {
-  display: block;
-  background: pink;
-  height: 100vh;
+/* Hearts game */
+.heart{
+  font-size:30px;
+  position:absolute;
+  cursor:pointer;
+  animation:float 2s infinite alternate;
 }
 
-button {
-  font-size: 22px;
-  padding: 12px 24px;
-  margin: 15px;
-  cursor: pointer;
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-20px)}
 }
 
-#noBtn {
-  transition: transform 0.2s;
+/* Matching game */
+.game-grid{
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  gap:15px;
+  justify-content:center;
+  margin-top:30px;
 }
 
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 70px);
-  gap: 15px;
-  justify-content: center;
-  margin-top: 30px;
+.card{
+  width:70px;
+  height:70px;
+  background:#ff99bb;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  cursor:pointer;
 }
 
-.card {
-  font-size: 36px;
-  background: #ffe6f0;
-  padding: 15px;
-  cursor: pointer;
-  border-radius: 10px;
+.card.matched{
+  background:#fff;
+  cursor:default;
 }
 
-.gallery img {
-  width: 220px;
-  margin: 15px;
-  border-radius: 12px;
+/* Gallery */
+.gallery{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:40px;
 }
 
-.quote {
-  font-style: italic;
-  margin-bottom: 30px;
+.photo-card{
+  background:#fff;
+  padding:15px;
+  width:220px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(255,0,100,.3);
+  opacity:0;
+  transform:translateY(30px);
+  animation:fadeUp 1s forwards;
+}
+
+.photo-card img{
+  width:100%;
+  border-radius:15px;
+}
+
+.quote{margin-top:12px;color:#ff3366}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO -->
-<audio id="bgMusic" preload="auto">
+<!-- AUDIO (FIXED) -->
+<audio id="bgMusic" loop preload="auto">
   <source src="night.mp3" type="audio/mpeg">
 </audio>
 
+<button id="musicBtn">Play Music 🎵</button>
+
 <!-- PAGE 1 -->
-<div id="page1" class="section">
-  <h1>Will you be mine forever? 💕</h1>
+<div class="page active" id="page1">
+  <h1>Mahek ❤️</h1>
+  <h2>Do you wanna be my Valentine?</h2>
   <button id="yesBtn">Yes 💖</button>
-  <button id="noBtn">No 😜</button>
+  <button id="noBtn">No 🙄</button>
 </div>
 
-<!-- PAGE 2 MATCHING GAME -->
-<div id="page2" class="section">
-  <h2>Match the Love 💍❤️🥰🫶</h2>
-  <div class="game-grid" id="grid"></div>
-  <p id="status"></p>
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <h1>Catch the hearts 💘</h1>
+  <h2>Click 5 hearts to continue</h2>
 </div>
 
-<!-- PAGE 3 PHOTOS -->
-<div id="page3" class="section">
-  <h2>Us ❤️</h2>
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <h1>Match the love 💍</h1>
+  <h2>Find all the pairs</h2>
+  <div class="game-grid" id="matchGrid"></div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <h1>Mahek 💖</h1>
+  <h2>You’re stuck with me forever 😌</h2>
+
   <div class="gallery">
-    <img src="pic1.jpeg">
-    <div class="quote">“My favorite place is next to you.”</div>
-
-    <img src="pic2.jpeg">
-    <div class="quote">“Every love story is beautiful, but ours is my favorite.”</div>
-
-    <img src="pic3.jpeg">
-    <div class="quote">“Forever feels right with you.”</div>
+    <div class="photo-card">
+      <img src="pic1.jpeg">
+      <div class="quote">"My favorite place is next to you."</div>
+    </div>
+    <div class="photo-card">
+      <img src="pic2.jpeg">
+      <div class="quote">"Every love story is beautiful, but ours is my favorite."</div>
+    </div>
+    <div class="photo-card">
+      <img src="pic3.jpeg">
+      <div class="quote">"I choose you. Every single day."</div>
+    </div>
   </div>
 </div>
 
 <script>
-const music = document.getElementById("bgMusic");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
+const pages=document.querySelectorAll(".page");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
 
-let noScale = 1;
+/* GUARANTEED MUSIC START (FIXED) */
+musicBtn.onclick=()=>{
+  music.volume = 1;
+  music.currentTime = 0;
+  music.play().catch(err => console.log(err));
+  musicBtn.style.display="none";
+};
 
-noBtn.addEventListener("click", () => {
-  noScale -= 0.15;
-  noBtn.style.transform = `scale(${noScale})`;
-  if (noScale <= 0.3) noBtn.style.display = "none";
-});
+/* NO button dodge + shrink */
+let scale=1;
+noBtn.onmouseover=()=>{
+  scale-=0.1;
+  noBtn.style.transform=`scale(${Math.max(scale,0.3)})`;
+  noBtn.style.left=Math.random()*(window.innerWidth-120)+"px";
+  noBtn.style.top=Math.random()*(window.innerHeight-120)+"px";
+};
 
-yesBtn.addEventListener("click", () => {
-  music.volume = 0.5;
-  music.play();
+/* Hearts game */
+let heartScore=0;
+yesBtn.onclick=()=>{
+  pages[0].classList.remove("active");
+  pages[1].classList.add("active");
+  spawnHearts();
+};
 
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "block";
-  startGame();
-});
-
-const emojis = ["💍","❤️","🥰","🫶"];
-let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-let first = null;
-let lock = false;
-let matched = 0;
-
-function startGame() {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
-
-  cards.forEach(e => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerText = "❓";
-    div.onclick = () => flip(div, e);
-    grid.appendChild(div);
-  });
-}
-
-function flip(card, emoji) {
-  if (lock || card.innerText !== "❓") return;
-  card.innerText = emoji;
-
-  if (!first) {
-    first = { card, emoji };
-  } else {
-    lock = true;
-    if (first.emoji === emoji) {
-      matched++;
-      reset();
-      if (matched === emojis.length) {
-        setTimeout(() => {
-          document.getElementById("page2").style.display = "none";
-          document.getElementById("page3").style.display = "block";
-        }, 800);
+function spawnHearts(){
+  for(let i=0;i<5;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText="💖";
+    h.style.left=Math.random()*(window.innerWidth-50)+"px";
+    h.style.top=Math.random()*(window.innerHeight-50)+"px";
+    h.onclick=()=>{
+      h.remove();
+      heartScore++;
+      if(heartScore===5){
+        pages[1].classList.remove("active");
+        pages[2].classList.add("active");
+        startMatchingGame();
       }
-    } else {
-      setTimeout(() => {
-        card.innerText = "❓";
-        first.card.innerText = "❓";
-        reset();
-      }, 800);
-    }
+    };
+    document.body.appendChild(h);
   }
 }
 
-function reset() {
-  first = null;
-  lock = false;
+/* Matching game */
+function startMatchingGame(){
+  const symbols=["💍","💍","❤️","❤️","🥰","🥰","🫶","🫶"];
+  symbols.sort(()=>0.5-Math.random());
+
+  const grid=document.getElementById("matchGrid");
+  grid.innerHTML="";
+  let first=null,lock=false,matched=0;
+
+  symbols.forEach(sym=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.onclick=()=>{
+      if(lock||card.classList.contains("matched"))return;
+      card.innerText=sym;
+      if(!first){first=card;}
+      else{
+        lock=true;
+        if(first.innerText===card.innerText){
+          first.classList.add("matched");
+          card.classList.add("matched");
+          matched+=2;
+          lock=false;
+          first=null;
+          if(matched===symbols.length){
+            setTimeout(()=>{
+              pages[2].classList.remove("active");
+              pages[3].classList.add("active");
+            },800);
+          }
+        }else{
+          setTimeout(()=>{
+            first.innerText="";
+            card.innerText="";
+            lock=false;
+            first=null;
+          },800);
+        }
+      }
+    };
+    grid.appendChild(card);
+  });
 }
 </script>
 
