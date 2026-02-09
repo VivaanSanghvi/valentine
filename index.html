@@ -1,197 +1,253 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mahek ❤️</title>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>Mahek ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffd6e8, #fff0f5);
-            font-family: 'Comic Sans MS', cursive;
-            text-align: center;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: #ffe6f0;
+      text-align: center;
+      overflow-x: hidden;
+    }
 
-        h1, h2 {
-            color: #ff2f68;
-        }
+    .page {
+      display: none;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
 
-        button {
-            font-size: 22px;
-            padding: 15px 35px;
-            margin: 15px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-        }
+    .page.active {
+      display: block;
+    }
 
-        #yesBtn { background: #ff4d6d; color: white; }
-        #noBtn {
-            background: gray;
-            color: white;
-            position: absolute;
-        }
+    h1 {
+      color: #ff3366;
+      font-size: 36px;
+    }
 
-        .page { display: none; padding: 40px; }
-        #firstPage { display: block; }
+    h2 {
+      color: #ff4d88;
+    }
 
-        /* GAME */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 80px);
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      margin: 20px;
+    }
 
-        .card {
-            width: 80px;
-            height: 80px;
-            background: #ffb3c6;
-            font-size: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border-radius: 15px;
-        }
+    #yesBtn {
+      background: #ff4d88;
+      color: white;
+    }
 
-        /* PHOTOS */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
+    #noBtn {
+      background: #ccc;
+      position: absolute;
+    }
 
-        .photo-card img {
-            width: 100%;
-            border-radius: 20px;
-        }
+    /* GAME */
+    .heart {
+      font-size: 30px;
+      cursor: pointer;
+      animation: float 2s infinite alternate;
+    }
 
-        .quote {
-            color: #ff4d6d;
-            margin-top: 10px;
-            font-size: 18px;
-        }
-    </style>
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-20px); }
+    }
+
+    /* GALLERY */
+    .gallery {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .photo-card {
+      background: white;
+      padding: 15px;
+      border-radius: 20px;
+      width: 220px;
+      box-shadow: 0 10px 25px rgba(255,0,100,0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .photo-card:nth-child(1){animation-delay:.2s}
+    .photo-card:nth-child(2){animation-delay:.5s}
+    .photo-card:nth-child(3){animation-delay:.8s}
+
+    .photo-card img {
+      width: 100%;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    .quote {
+      margin-top: 12px;
+      color: #ff3366;
+      font-size: 16px;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .final-message {
+      margin-top: 60px;
+      color: #ff3366;
+    }
+
+    .final-message h2 {
+      font-size: 30px;
+    }
+
+    .final-message p {
+      font-size: 18px;
+    }
+
+    @media (max-width:600px) {
+      h1 { font-size: 28px; }
+      .gallery { flex-direction: column; }
+    }
+  </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-    <source src="night_we_met.mp3" type="audio/mpeg">
+<audio autoplay loop>
+  <source src="night_we_met.mp3.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PAGE 1 -->
-<div class="page" id="firstPage">
-    <h1>Mahek ❤️</h1>
-    <h2>Do you wanna be my Valentine?</h2>
-    <button id="yesBtn">Yes ❤️</button>
-    <button id="noBtn">No 💔</button>
+<div class="page active" id="page1">
+  <h1>Mahek ❤️</h1>
+  <h2>Do you wanna be my Valentine?</h2>
+
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 🙄</button>
 </div>
 
-<!-- GAME PAGE -->
-<div class="page" id="gamePage">
-    <h1>Match the Love 💖</h1>
-    <p>Match all pairs to continue</p>
-    <div class="grid" id="grid"></div>
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <h1>Catch the hearts 💘</h1>
+  <h2>Click 5 hearts to unlock the surprise</h2>
+  <div id="game"></div>
 </div>
 
-<!-- PHOTO PAGE -->
-<div class="page" id="photoPage">
-    <h1>Mahek ❤️</h1>
-    <h2>You’re stuck with me forever 😌</h2>
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <h1>Mahek 💖</h1>
+  <h2>You’re stuck with me forever 😌</h2>
 
-    <div class="gallery">
-        <div class="photo-card">
-            <img src="pic1.jpeg">
-            <div class="quote">“My favorite place is next to you.”</div>
-        </div>
-
-        <div class="photo-card">
-            <img src="pic2.jpeg">
-            <div class="quote">“Every love story is beautiful, but ours is my favorite.”</div>
-        </div>
-
-        <div class="photo-card">
-            <img src="pic3.jpeg">
-            <div class="quote">“I choose you. Every single day.”</div>
-        </div>
+  <div class="gallery">
+    <div class="photo-card">
+      <img src="pic1.jpeg">
+      <div class="quote">"My favorite place is next to you."</div>
     </div>
+
+    <div class="photo-card">
+      <img src="pic2.jpeg">
+      <div class="quote">"Every love story is beautiful, but ours is my favorite."</div>
+    </div>
+
+    <div class="photo-card">
+      <img src="pic3.jpeg">
+      <div class="quote">"I choose you. Every single day."</div>
+    </div>
+  </div>
+
+  <div class="final-message">
+    <h2>Happy Valentine’s Day 💖</h2>
+    <p>
+      I choose you today, tomorrow, and always.  
+      And yes… you’re officially stuck with me forever 😉
+    </p>
+  </div>
 </div>
 
 <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const firstPage = document.getElementById("firstPage");
-    const gamePage = document.getElementById("gamePage");
-    const photoPage = document.getElementById("photoPage");
-    const grid = document.getElementById("grid");
-    const music = document.getElementById("music");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const pages = document.querySelectorAll(".page");
 
-    // NO BUTTON EVIL MODE
-    noBtn.onmouseover = () => {
-        noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-        noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
-        noBtn.style.transform = `scale(${Math.random()}) rotate(${Math.random()*360}deg)`;
-    };
+  noBtn.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  });
 
-    yesBtn.onclick = () => {
-        firstPage.style.display = "none";
-        gamePage.style.display = "block";
-        music.play();
-        startGame();
-    };
+  yesBtn.onclick = () => {
+    pages[0].classList.remove("active");
+    pages[1].classList.add("active");
+    startGame();
+  };
 
-    // MEMORY GAME
-    const emojis = ["❤️","❤️","🌹","🌹","💍","💍","🥰","🥰"];
-    let flipped = [];
-    let matched = 0;
+  let score = 0;
+  function startGame() {
+    const game = document.getElementById("game");
+    for (let i = 0; i < 5; i++) spawnHeart();
 
-    function startGame() {
-        grid.innerHTML = "";
-        shuffle(emojis).forEach(e => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerText = "❓";
-            card.dataset.value = e;
+    function spawnHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+      heart.style.position = "absolute";
+      heart.style.left = Math.random() * (window.innerWidth - 50) + "px";
+      heart.style.top = Math.random() * (window.innerHeight - 50) + "px";
 
-            card.onclick = () => flip(card);
-            grid.appendChild(card);
-        });
-    }
-
-    function flip(card) {
-        if (flipped.length < 2 && card.innerText === "❓") {
-            card.innerText = card.dataset.value;
-            flipped.push(card);
+      heart.onclick = () => {
+        heart.remove();
+        score++;
+        if (score === 5) {
+          pages[1].classList.remove("active");
+          pages[2].classList.add("active");
         }
+      };
 
-        if (flipped.length === 2) {
-            setTimeout(checkMatch, 600);
-        }
+      game.appendChild(heart);
     }
+  }
 
-    function checkMatch() {
-        if (flipped[0].dataset.value === flipped[1].dataset.value) {
-            matched++;
-            if (matched === 4) {
-                gamePage.style.display = "none";
-                photoPage.style.display = "block";
-            }
-        } else {
-            flipped.forEach(c => c.innerText = "❓");
-        }
-        flipped = [];
+  // Heart burst on photo click
+  document.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      for (let i = 0; i < 10; i++) {
+        const h = document.createElement("div");
+        h.innerText = "💖";
+        h.style.position = "fixed";
+        h.style.left = e.clientX + "px";
+        h.style.top = e.clientY + "px";
+        h.style.fontSize = "20px";
+        h.style.animation = "floatUp 1s ease forwards";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 1000);
+      }
     }
-
-    function shuffle(arr) {
-        return arr.sort(() => Math.random() - 0.5);
-    }
+  });
 </script>
+
+<style>
+@keyframes floatUp {
+  to {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+</style>
 
 </body>
 </html>
-
